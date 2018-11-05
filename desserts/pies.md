@@ -4,11 +4,11 @@
 
 #### Ingredients
 ```
-•	2 egg yolks (no egg white)
-•	4 tbsp of ice water (make sure it’s ICE cold)
-•	2 cups of flour
-•	10 tbsp of butter
-•	salt to taste (2 teaspoons)
+*  2 egg yolks (no egg white)
+*  4 tbsp of ice water (make sure it’s ICE cold)
+*  2 cups of flour
+*  10 tbsp of butter
+*  salt to taste (2 teaspoons)
 ```
 
 #### Protocol (Steps to success)
@@ -28,14 +28,14 @@
 
 #### Ingredients
 ```
-    * 8 Apples (granny smith or something tart)
-    * 1 cup brown sugar
-    * 1/4 tsp salt
-    * 2 tsp cinnamon
-    * 1/3 cup lemon juice
-    * 1 and 3/4 tbsp cornstarch
-    * 1 and 3/4 tbsp cornstarch (for later)
-    * eggwash [mix together 1 egg with 1-2 tbsp cold water/milk]
+    *  8 Apples (granny smith or something tart)
+    *  1 cup brown sugar
+    *  1/4 tsp salt
+    *  2 tsp cinnamon
+    *  1/3 cup lemon juice
+    *  1 and 3/4 tbsp cornstarch
+    *  1 and 3/4 tbsp cornstarch (for later)
+    *  eggwash [mix together 1 egg with 1-2 tbsp cold water/milk]
 ```
 
 #### Macerate apples for filling
@@ -59,19 +59,19 @@
 
 #### Ingredients
 ```
-    * One Smallish pumpkin
-    * 1 tsp cinnamon
-    * 1/8 tsp clove
-    * 1/8 tsp allspice
-    * 1/4 tsp ginger
-    * 1/4 tsp nutmeg
-    * 1/2 tsp
-    * 1 tsp vanilla
-    * 1/2 cup sugar
-    * 1/2 cup brown sugar
-    * 3 eggs
-    * 1 egg yolk
-    * 1 1/4 cup half-and-half
+    *  One Smallish pumpkin
+    *  1 tsp cinnamon
+    *  1/8 tsp clove
+    *  1/8 tsp allspice
+    *  1/4 tsp ginger
+    *  1/4 tsp nutmeg
+    *  1/2 tsp
+    *  1 tsp vanilla
+    *  1/2 cup sugar
+    *  1/2 cup brown sugar
+    *  3 eggs
+    *  1 egg yolk
+    *  1 1/4 cup half-and-half
 ```
 
 #### Assembly
