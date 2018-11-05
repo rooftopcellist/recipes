@@ -27,6 +27,7 @@
 ### Apple Pie Filling
 
 #### Ingredients
+```
     * 8 Apples (granny smith or something tart)
     * 1 cup brown sugar
     * 1/4 tsp salt
@@ -35,7 +36,7 @@
     * 1 and 3/4 tbsp cornstarch
     * 1 and 3/4 tbsp cornstarch (for later)
     * eggwash [mix together 1 egg with 1-2 tbsp cold water/milk]
-
+```
 
 #### Macerate apples for filling
 1. Peel, core and slice the apples and put them in a bowl with some lemon water (keeps them from browning)
@@ -57,6 +58,7 @@
 ### Apple Pie Filling
 
 #### Ingredients
+```
     * One Smallish pumpkin
     * 1 tsp cinnamon
     * 1/8 tsp clove
@@ -70,6 +72,7 @@
     * 3 eggs
     * 1 egg yolk
     * 1 1/4 cup half-and-half
+```
 
 #### Assembly
 1. Cut open the pumpkin and scrape out the seeds and stringy bits with a knife
