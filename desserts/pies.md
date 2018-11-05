@@ -3,11 +3,13 @@
 ### The Crust
 
 #### Ingredients
+```
 •	2 egg yolks (no egg white)
 •	4 tbsp of ice water (make sure it’s ICE cold)
 •	2 cups of flour
 •	10 tbsp of butter
 •	salt to taste (2 teaspoons)
+```
 
 #### Protocol (Steps to success)
 1.	Put the flour and salt in a mixing bowl, knead in the cubes of butter together with your fingertips (keep it cool)
