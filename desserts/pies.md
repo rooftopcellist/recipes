@@ -55,7 +55,7 @@
 10. Bake at 400F for 40-45 minutes.  
 
 
-### Apple Pie Filling
+### Pumpkin Pie Filling
 
 #### Ingredients
 ```
