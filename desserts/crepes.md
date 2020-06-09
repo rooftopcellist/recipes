@@ -3,13 +3,13 @@
 > Note: Fun fact, crepes actually originated in England.  
 
 ## Ingredients
-2 large eggs
-2 cups whole milk
-1/2 cup butter, melted
-1-1/4 cups all-purpose flour
-2 tablespoons plus 2-1/2 teaspoons sugar, divided
-3-3/4 cups vanilla ice cream
-Fresh blueberries and sliced strawberries
+* 2 large eggs
+* 2 cups whole milk
+* 1/2 cup butter, melted
+* 1-1/4 cups all-purpose flour
+* 2 tablespoons plus 2-1/2 teaspoons sugar, divided
+* Fillings (see "Fillings" section at the bottom)
+
 
 
 ## Protocol
