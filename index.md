@@ -5,7 +5,10 @@ A collection of my own recipes that have become standards at home.  I have also 
 ## Table of Contents
 
 * [Baking](./baking/README.md)
-  * Banana Bread
+* [Brews](./brews/README.md)
+* [Desserts](./desserts/README.md)
+* [Quick Meals](./quick-meals/README.md)
+* [Thanksgiving](./thanksgiving/README.md)
 
 I hope you enjoy!
 
