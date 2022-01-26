@@ -7,6 +7,7 @@ A collection of my own recipes that have become standards at home.  I have also 
 * [Baking](./baking/README.md)
 * [Brews](./brews/README.md)
 * [Desserts](./desserts/README.md)
+* [Dinner](./dinner/README.md)
 * [Quick Meals](./quick-meals/README.md)
 * [Thanksgiving](./thanksgiving/README.md)
 
