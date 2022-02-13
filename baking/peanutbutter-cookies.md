@@ -2,7 +2,7 @@
 
 <drag picture in here>
 
-![peanutbutter-cookies.jpg](../images/peanutbutter-cookies.jpg)
+![peanutbutter-cookies](../images/peanutbutter-cookies.jpg){:class="img-responsive"}
 
 ## Ingredients
 
