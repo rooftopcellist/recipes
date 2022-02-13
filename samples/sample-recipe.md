@@ -1,6 +1,6 @@
 # Peanut Butter Cookies
 
-![peanutbutter-cookies](../images/peanutbutter-cookies.jpg){:class="img-responsive"}
+![peanutbutter-cookies](../images/peanutbutter-cookies.jpg)
 
 ## Ingredients
 
