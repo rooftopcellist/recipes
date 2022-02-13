@@ -1,7 +1,5 @@
 # Peanut Butter Cookies
 
-<drag picture in here>
-
 ![peanutbutter-cookies](../images/peanutbutter-cookies.jpg){:class="img-responsive"}
 
 ## Ingredients
