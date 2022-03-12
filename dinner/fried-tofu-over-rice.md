@@ -13,14 +13,14 @@
 
 # Sauce
 
-1/4 cup low-sodium soy sauce
-1/4 cup water
-2 teaspoons honey
-1 1/2 teaspoons red pepper flakes
-2 cloves of garlic pressed or minced finely (see notes)
-1/2 teaspoon rice wine vinegar
-1 tablespoon cornstarch
-A few cracks of fresh pepper
+- [ ] 1/4 cup low-sodium soy sauce
+- [ ] 1/4 cup water
+- [ ] 2 teaspoons honey
+- [ ] 1 1/2 teaspoons red pepper flakes
+- [ ] 2 cloves of garlic pressed or minced finely (see notes)
+- [ ] 1/2 teaspoon rice wine vinegar
+- [ ] 1 tablespoon cornstarch
+- [ ] A few cracks of fresh pepper
 
 ## Prep:
 
