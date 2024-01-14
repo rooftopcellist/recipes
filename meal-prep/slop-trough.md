@@ -1,5 +1,7 @@
 # Slop Trough (Cheeseburger Bowl)
 
+<img src="https://raw.githubusercontent.com/rooftopcellist/recipes/master/meal-prep/images/slop-trough.jpeg" height="350">
+
 ## Ingredients
 
 * 96% lean beef

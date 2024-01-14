@@ -13,7 +13,7 @@ Typically, a recipe will have the following structure:
 * Ingredients: list of ingredients, each on a new line. For example: "1 tsp Salt (sprinkled on top)"
 * Cooking Instructions: list of actions to take to cook ze delicious food
 * Tips/Pairings/Note to chef
-* Final Picture (s): Pictures to include at the bottom of the recipe
+* Final Picture (s): Pictures to include in the recipe page. Please limit this to one picture per recipe, and reduce the resolution to medium. The image format should be .jpeg or .png
 
 Here is a [sample recipe](./samples/sample-recipe.md) to show you what I mean. 
 
