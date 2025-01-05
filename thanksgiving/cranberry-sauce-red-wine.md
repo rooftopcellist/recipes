@@ -2,14 +2,14 @@
 
 ## Ingredients
 Yield:
-10 to 12 servings
-2 (12-ounce) packages fresh cranberries (6 cups)
-1¾ cups dark brown sugar
-1cup dry red wine
-3tablespoons honey
-4 (¼-inch-thick) slices fresh gingerroot, smashed
-Pinch of kosher salt
-½ teaspoon black pepper
+* 10 to 12 servings
+* 2 (12-ounce) packages fresh cranberries (6 cups)
+* 1¾ cups dark brown sugar
+* 1cup dry red wine
+* 3 tablespoons honey
+* 4 (¼-inch-thick) slices fresh gingerroot, smashed
+* Pinch of kosher salt
+* ½ teaspoon black pepper
 
 ## Preparation
 
