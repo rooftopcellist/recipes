@@ -2,7 +2,7 @@ from git import Repo, GitCommandError
 import os
 import requests
 
-def commit_and_push_changes(filepath, branch, repo_url, github_token):
+def commit_and_push_changes(filepath, branch, repo_url, github_token, extra_files=None):
     # Embed token into HTTPS URL
     authed_repo_url = repo_url.replace("https://", f"https://{github_token}@")
 
@@ -18,13 +18,27 @@ def commit_and_push_changes(filepath, branch, repo_url, github_token):
         new_branch = repo.create_head(branch)
         new_branch.checkout()
 
-        # Copy recipe file into repo
         dest_path = os.path.join(repo_dir, filepath)
         os.makedirs(os.path.dirname(dest_path), exist_ok=True)
         os.system(f"cp {filepath} {dest_path}")
 
-        # Stage, commit, and push
+        # Copy extra files like images
+        if extra_files:
+            for file in extra_files:
+                local_dest = os.path.join(repo_dir, file)
+                os.makedirs(os.path.dirname(local_dest), exist_ok=True)
+                os.system(f"cp {file} {local_dest}")
+
+        # Stage diff
         repo.index.add([os.path.relpath(dest_path, repo_dir)])
+
+        # Add both recipe and image(s)
+        files_to_add = [os.path.relpath(dest_path, repo_dir)]
+        if extra_files:
+            files_to_add += [os.path.relpath(os.path.join(repo_dir, f), repo_dir) for f in extra_files]
+        repo.index.add(files_to_add)
+
+        # Commit changes
         repo.index.commit(f"Add recipe: {os.path.basename(filepath)}")
 
         # Set remote URL to include token and push

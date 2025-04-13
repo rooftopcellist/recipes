@@ -15,9 +15,9 @@ def main():
         return
 
     for recipe in new_recipes:
-        path, slug = create_markdown(recipe)
+        recipe_path, slug, extra_files = create_markdown(recipe)
         branch = f"add-{slug}"
-        commit_and_push_changes(path, branch, repo_url, github_token)
+        commit_and_push_changes(recipe_path, branch, repo_url, github_token, extra_files)
         create_pull_request(branch, github_token)
 
     latest_time = max([r["__timestamp"] for r in new_recipes])
