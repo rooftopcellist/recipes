@@ -1,8 +1,9 @@
 import os
 import json
+from slugify import slugify
 from sheets import get_new_recipes
 from recipes import create_markdown
-from github_ops import commit_and_push_changes, create_pull_request
+from github_ops import clone_repository, commit_and_push_changes, create_pull_request
 
 def main():
     sheet_url = "https://docs.google.com/spreadsheets/d/17DM2qFogUHGtHELX1qeQeRxQThXEqOZL6qnq9iT13bI/edit?gid=0"
@@ -24,20 +25,47 @@ def main():
         print(f"✅ Found {len(new_recipes)} new recipe(s) to process.")
 
         for i, recipe in enumerate(new_recipes, 1):
-            print(f"\n🍽️ Processing recipe {i}/{len(new_recipes)}: {recipe.get('Recipe Name', 'Unknown')}")
-            recipe_path, slug, extra_files = create_markdown(recipe)
+            recipe_name = recipe.get('Recipe Name', 'Unknown')
+            print(f"\n🍽️ Processing recipe {i}/{len(new_recipes)}: {recipe_name}")
+
+            # Create a branch name based on the recipe slug
+            slug = slugify(recipe["Recipe Name"])
             branch = f"add-{slug}"
 
-            print(f"🔄 Committing and pushing changes for {slug}...")
-            commit_and_push_changes(recipe_path, branch, repo_url, github_token, extra_files)
+            # Clone the repository to a temporary directory
+            try:
+                temp_dir, repo = clone_repository(repo_url, github_token)
 
-            print(f"📝 Creating pull request for {slug}...")
-            pr_url = create_pull_request(branch, github_token)
+                # Create and checkout a new branch
+                new_branch = repo.create_head(branch)
+                new_branch.checkout()
 
-            if pr_url:
-                print(f"🎉 Recipe {slug} successfully processed and PR created/updated.")
-            else:
-                print(f"⚠️ Recipe {slug} processed but PR creation may have issues.")
+                # Create the markdown file and update README.md in the temporary directory
+                recipe_path, slug, extra_files = create_markdown(recipe, temp_dir)
+
+                # Log the files that will be committed
+                print(f"📝 Files to be committed:")
+                print(f"  - Recipe: {recipe_path}")
+                for file in extra_files:
+                    file_type = "README" if os.path.basename(file) == "README.md" else "Image" if file.startswith("images/") else "Other"
+                    print(f"  - {file_type}: {file}")
+
+                # Commit and push the changes
+                print(f"🔄 Committing and pushing changes for {slug}...")
+                commit_and_push_changes(temp_dir, repo, recipe_path, branch, repo_url, github_token, extra_files)
+
+                print(f"📝 Creating pull request for {slug}...")
+                pr_url = create_pull_request(branch, github_token)
+
+                if pr_url:
+                    print(f"🎉 Recipe {slug} successfully processed and PR created/updated.")
+                else:
+                    print(f"⚠️ Recipe {slug} processed but PR creation may have issues.")
+
+            except Exception as e:
+                print(f"❌ Error processing recipe {recipe_name}: {e}")
+                import traceback
+                traceback.print_exc()
 
     except Exception as e:
         print(f"❌ Error processing recipes: {e}")

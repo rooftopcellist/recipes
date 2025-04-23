@@ -11,8 +11,30 @@ def format_numbered_list(raw):
     lines = [line.strip() for line in raw.strip().splitlines() if line.strip()]
     return "\n".join(f"{i+1}. {line}" for i, line in enumerate(lines))
 
-def update_category_readme(category_path, recipe_name, slug):
-    readme_path = os.path.join(category_path, "README.md")
+def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
+    """Update the README.md file in the given category path with a link to the new recipe.
+
+    Args:
+        category_path: The path to the category directory
+        recipe_name: The name of the recipe
+        slug: The slug of the recipe
+        temp_dir: The path to the temporary directory containing the cloned repository
+
+    Returns:
+        str: The path to the updated README.md file
+    """
+    # Determine the actual path to use (either in the temp_dir or local)
+    if temp_dir:
+        # Use the path in the temporary directory
+        rel_category_path = os.path.relpath(category_path)
+        actual_category_path = os.path.join(temp_dir, rel_category_path)
+        print(f"📗 Updating README.md in temporary directory: {actual_category_path}")
+    else:
+        # Use the local path
+        actual_category_path = category_path
+        print(f"📗 Updating local README.md: {actual_category_path}")
+
+    readme_path = os.path.join(actual_category_path, "README.md")
     recipe_link = f"* [{recipe_name}]({slug}.md)\n"
 
     # Create the README with title and link if it doesn't exist
@@ -79,11 +101,34 @@ def update_category_readme(category_path, recipe_name, slug):
     with open(readme_path, "w") as f:
         f.writelines(new_lines)
 
-def create_markdown(recipe):
+    return readme_path
+
+def create_markdown(recipe, temp_dir=None):
+    """Create a markdown file for the recipe and update the README.md file.
+
+    Args:
+        recipe: The recipe data
+        temp_dir: The path to the temporary directory containing the cloned repository
+
+    Returns:
+        tuple: (recipe_path, slug, extra_paths_to_add) - The path to the recipe file, the slug, and a list of extra files to commit
+    """
     slug = slugify(recipe["Recipe Name"])
     category = recipe["What category does this best fall under?"]
     category_path = get_category_path(category)
-    recipe_path = os.path.join(category_path, f"{slug}.md")
+
+    # Determine the actual path to use (either in the temp_dir or local)
+    if temp_dir:
+        # Use the path in the temporary directory
+        rel_category_path = os.path.relpath(category_path)
+        actual_category_path = os.path.join(temp_dir, rel_category_path)
+        print(f"📝 Creating recipe in temporary directory: {actual_category_path}")
+    else:
+        # Use the local path
+        actual_category_path = category_path
+        print(f"📝 Creating recipe locally: {actual_category_path}")
+
+    recipe_path = os.path.join(actual_category_path, f"{slug}.md")
 
     image_url = recipe.get("Upload a picture of your dish", "").strip()
     image_ref = ""
@@ -92,15 +137,47 @@ def create_markdown(recipe):
     if image_url:
         file_id = extract_file_id(image_url)
         if file_id:
-            image_dir = os.path.join(category_path, "images")
+            # Create image directory in the appropriate location
+            if temp_dir:
+                # Use the path in the temporary directory
+                rel_image_dir = os.path.relpath(os.path.join(category_path, "images"))
+                image_dir = os.path.join(temp_dir, rel_image_dir)
+            else:
+                # Use the local path
+                image_dir = os.path.join(category_path, "images")
+
             os.makedirs(image_dir, exist_ok=True)
             image_ext = "jpeg"
             image_path = os.path.join(image_dir, f"{slug}.{image_ext}")
+
             try:
-                download_image_from_drive(file_id, image_path)
-                image_rel_path = os.path.relpath(image_path, category_path)
+                # Always download to the local path first
+                local_image_dir = os.path.join(category_path, "images")
+                os.makedirs(local_image_dir, exist_ok=True)
+                local_image_path = os.path.join(local_image_dir, f"{slug}.{image_ext}")
+
+                download_image_from_drive(file_id, local_image_path)
+
+                # If using temp_dir, copy the image to the temp directory
+                if temp_dir:
+                    # Make sure the directory exists
+                    os.makedirs(os.path.dirname(image_path), exist_ok=True)
+                    # Copy the image to the temp directory
+                    import shutil
+                    shutil.copy2(local_image_path, image_path)
+                    print(f"✅ Copied image to temporary directory: {image_path}")
+
+                # Use the relative path for the markdown
+                image_rel_path = os.path.join("images", f"{slug}.{image_ext}")
                 image_ref = f"![{recipe['Recipe Name']}]({image_rel_path})\n"
-                extra_paths_to_add.append(image_path)
+
+                # Add the image path to the list of files to commit
+                if temp_dir:
+                    # Use the relative path for git staging
+                    rel_image_path = os.path.relpath(os.path.join(category_path, "images", f"{slug}.{image_ext}"))
+                    extra_paths_to_add.append(rel_image_path)
+                else:
+                    extra_paths_to_add.append(local_image_path)
             except Exception as e:
                 print(f"❌ Failed to download image for {slug}: {e}")
 
@@ -140,13 +217,21 @@ def create_markdown(recipe):
 
 _Enjoy!_
 """
+    # Create the directory if it doesn't exist
+    os.makedirs(os.path.dirname(recipe_path), exist_ok=True)
 
-    os.makedirs(category_path, exist_ok=True)
+    # Write the recipe file
     with open(recipe_path, "w") as f:
         f.write(content)
 
-    # ✅ Update the category README.md
-    update_category_readme(category_path, recipe["Recipe Name"], slug)
+    # ✅ Update the category README.md in the appropriate location
+    readme_path = update_category_readme(category_path, recipe["Recipe Name"], slug, temp_dir)
 
     # Return all files for git staging
-    return recipe_path, slug, extra_paths_to_add + [os.path.join(category_path, "README.md")]
+    if temp_dir:
+        # Use relative paths for git staging
+        rel_recipe_path = os.path.relpath(os.path.join(category_path, f"{slug}.md"))
+        rel_readme_path = os.path.relpath(os.path.join(category_path, "README.md"))
+        return rel_recipe_path, slug, extra_paths_to_add + [rel_readme_path]
+    else:
+        return recipe_path, slug, extra_paths_to_add + [os.path.join(category_path, "README.md")]

@@ -4,7 +4,16 @@ import requests
 import tempfile
 import shutil
 
-def commit_and_push_changes(filepath, branch, repo_url, github_token, extra_files=None):
+def clone_repository(repo_url, github_token):
+    """Clone the repository to a temporary directory and return the path.
+
+    Args:
+        repo_url: The URL of the repository to clone
+        github_token: The GitHub token for authentication
+
+    Returns:
+        tuple: (temp_dir, repo) - The path to the temporary directory and the repository object
+    """
     # Embed token into HTTPS URL
     authed_repo_url = repo_url.replace("https://", f"https://{github_token}@")
 
@@ -15,28 +24,102 @@ def commit_and_push_changes(filepath, branch, repo_url, github_token, extra_file
         print(f"🔄 Cloning repository to temporary directory...")
         # Clone with authentication
         repo = Repo.clone_from(authed_repo_url, temp_dir)
+        return temp_dir, repo
+    except Exception as e:
+        # Clean up the temporary directory if cloning fails
+        print(f"❌ Failed to clone repository: {e}")
+        shutil.rmtree(temp_dir)
+        raise
+
+def commit_and_push_changes(temp_dir, repo, filepath, branch, repo_url, github_token, extra_files=None, cleanup=True):
+    """Commit and push changes to the repository.
+
+    Args:
+        temp_dir: The path to the temporary directory containing the cloned repository
+        repo: The repository object
+        filepath: The path to the recipe file
+        branch: The branch name
+        repo_url: The URL of the repository
+        github_token: The GitHub token for authentication
+        extra_files: A list of extra files to commit
+        cleanup: Whether to clean up the temporary directory after pushing
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    # Embed token into HTTPS URL
+    authed_repo_url = repo_url.replace("https://", f"https://{github_token}@")
+
+    try:
 
         # Create and checkout new branch
         new_branch = repo.create_head(branch)
         new_branch.checkout()
 
-        print(f"📝 Copying recipe files to temporary directory...")
-        # Copy the recipe file
+        print(f"📝 Verifying recipe files in temporary directory...")
+        # Since we're now creating the recipe files directly in the temporary directory,
+        # we don't need to copy them again. We just need to make sure they exist.
         dest_path = os.path.join(temp_dir, filepath)
-        os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-        shutil.copy2(filepath, dest_path)
+        if not os.path.exists(dest_path):
+            print(f"⚠️ Warning: Recipe file not found in temporary directory: {dest_path}")
+            # If the file doesn't exist in the temporary directory, it might be a local file
+            # that needs to be copied (for backward compatibility)
+            if os.path.exists(filepath):
+                print(f"📝 Copying recipe file from local directory: {filepath}")
+                os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+                shutil.copy2(filepath, dest_path)
+            else:
+                raise FileNotFoundError(f"Recipe file not found: {filepath}")
 
-        # Copy extra files like images and README.md
+        # Copy recipe file and prepare list of files to add
         files_to_add = [os.path.relpath(dest_path, temp_dir)]
+
+        # Handle extra files like images and README.md
         if extra_files:
             for file in extra_files:
                 local_dest = os.path.join(temp_dir, file)
                 os.makedirs(os.path.dirname(local_dest), exist_ok=True)
-                try:
-                    shutil.copy2(file, local_dest)
-                    files_to_add.append(os.path.relpath(local_dest, temp_dir))
-                except Exception as e:
-                    print(f"⚠️ Warning: Could not copy {file}: {e}")
+
+                # Special handling for README.md files
+                if os.path.basename(file) == "README.md":
+                    print(f"📗 Special handling for README.md: {file}")
+                    try:
+                        # Since we're now updating the README.md files directly in the temporary directory
+                        # during the recipe creation process, we don't need to copy them again here.
+                        # We just need to make sure they're added to the list of files to stage.
+                        rel_path = os.path.relpath(file)
+                        repo_readme_path = os.path.join(temp_dir, rel_path)
+
+                        # Verify that the README.md file exists in the temporary directory
+                        if os.path.exists(repo_readme_path):
+                            print(f"✅ README.md already updated in temporary directory: {repo_readme_path}")
+                            # Add the README.md file to the list of files to stage
+                            files_to_add.append(rel_path)
+                        else:
+                            print(f"⚠️ Warning: README.md not found in temporary directory: {repo_readme_path}")
+                    except Exception as e:
+                        print(f"⚠️ Warning: Could not handle README.md {file}: {e}")
+                        import traceback
+                        traceback.print_exc()
+                else:
+                    # Regular file handling (images, etc.)
+                    try:
+                        # Check if the file already exists in the temporary directory
+                        if os.path.exists(local_dest):
+                            print(f"✅ File already exists in temporary directory: {local_dest}")
+                        else:
+                            # If the file doesn't exist in the temporary directory, it might be a local file
+                            # that needs to be copied (for backward compatibility)
+                            if os.path.exists(file):
+                                print(f"📝 Copying file from local directory: {file}")
+                                shutil.copy2(file, local_dest)
+                            else:
+                                print(f"⚠️ Warning: File not found: {file}")
+
+                        # Add the file to the list of files to stage
+                        files_to_add.append(os.path.relpath(local_dest, temp_dir))
+                    except Exception as e:
+                        print(f"⚠️ Warning: Could not handle file {file}: {e}")
 
         # Stage all files
         print(f"📋 Staging changes...")
@@ -81,12 +164,15 @@ def commit_and_push_changes(filepath, branch, repo_url, github_token, extra_file
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
     finally:
-        # Clean up the temporary directory
-        print(f"🧹 Cleaning up temporary directory...")
-        try:
-            shutil.rmtree(temp_dir)
-        except Exception as e:
-            print(f"⚠️ Warning: Could not clean up temporary directory: {e}")
+        # Clean up the temporary directory if requested
+        if cleanup:
+            print(f"🧹 Cleaning up temporary directory...")
+            try:
+                shutil.rmtree(temp_dir)
+            except Exception as e:
+                print(f"⚠️ Warning: Could not clean up temporary directory: {e}")
+
+        return True
 
 def create_pull_request(branch, github_token):
     headers = {

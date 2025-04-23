@@ -143,11 +143,33 @@ You can run this script daily using a GitHub Action or cron job. Ask for help if
 
 ---
 
+## 🧪 Testing
+
+The recipe automation includes a comprehensive test suite to ensure everything works correctly. To run the tests:
+
+```bash
+./run_tests.py
+```
+
+This will run all the tests in the repository and provide a summary of the results.
+
+The test suite includes:
+- `test_clone_first.py` - Tests the clone-first approach
+- `test_full_flow.py` - Tests the full flow of the recipe automation
+- `test_github_ops.py` - Tests the GitHub operations
+- `test_readme_preservation_v2.py` - Tests README.md preservation
+- `test_readme_update.py` - Tests the README.md update function
+- `test_real_readmes.py` - Tests with real README.md files
+- `test_utils.py` - Tests utility functions
+
+---
+
 ## 🖔 Troubleshooting
 
 - **Images not downloading**: Ensure uploads are shared with the service account.
 - **No PR created**: Confirm the GitHub token is exported and valid.
 - **No recipes found**: Check the timestamp in `processed_recipes.json`.
+- **Tests failing**: Run individual tests to debug (e.g., `python test_clone_first.py`).
 
 ---
 
