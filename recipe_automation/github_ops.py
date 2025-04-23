@@ -50,9 +50,31 @@ def commit_and_push_changes(filepath, branch, repo_url, github_token, extra_file
         print(f"🚀 Pushing branch '{branch}'...")
         origin = repo.remote()
         origin.set_url(authed_repo_url)
-        origin.push(refspec=f"{branch}:{branch}")
 
-        print(f"✅ Successfully pushed branch '{branch}'.")
+        try:
+            # First try a normal push
+            push_info = origin.push(refspec=f"{branch}:{branch}")
+
+            # Check if push was successful
+            for info in push_info:
+                if info.flags & info.ERROR:
+                    print(f"⚠️ Push failed, trying force push: {info.summary}")
+                    # If normal push fails, try force push
+                    origin.push(refspec=f"{branch}:{branch}", force=True)
+                    print(f"✅ Force push of branch '{branch}' successful.")
+                    break
+            else:
+                print(f"✅ Successfully pushed branch '{branch}'.")
+
+        except GitCommandError as e:
+            if "rejected" in str(e) or "failed to push" in str(e):
+                print(f"⚠️ Push rejected, trying force push...")
+                # If push fails due to rejection, try force push
+                origin.push(refspec=f"{branch}:{branch}", force=True)
+                print(f"✅ Force push of branch '{branch}' successful.")
+            else:
+                # Re-raise if it's a different error
+                raise
 
     except GitCommandError as e:
         print(f"❌ Git command failed: {e}")
@@ -71,6 +93,20 @@ def create_pull_request(branch, github_token):
         "Authorization": f"token {github_token}",
         "Accept": "application/vnd.github+json",
     }
+
+    # First check if a PR already exists for this branch
+    print(f"🔍 Checking if PR already exists for branch '{branch}'...")
+    check_url = f"https://api.github.com/repos/rooftopcellist/recipes/pulls?head=rooftopcellist:{branch}&state=open"
+    check_response = requests.get(check_url, headers=headers)
+
+    if check_response.status_code == 200 and check_response.json():
+        # PR already exists
+        pr_url = check_response.json()[0]["html_url"]
+        print(f"✅ PR already exists: {pr_url}")
+        return pr_url
+
+    # Create a new PR
+    print(f"📝 Creating new PR for branch '{branch}'...")
     data = {
         "title": f"Add new recipe: {branch}",
         "head": branch,
@@ -82,7 +118,21 @@ def create_pull_request(branch, github_token):
         json=data,
         headers=headers
     )
+
     if response.status_code == 201:
-        print("✅ PR created:", response.json()["html_url"])
+        pr_url = response.json()["html_url"]
+        print(f"✅ PR created: {pr_url}")
+        return pr_url
+    elif response.status_code == 422 and "A pull request already exists" in response.text:
+        # PR exists but we couldn't find it in our first check
+        print(f"✅ PR already exists for branch '{branch}'")
+        # Try to get the PR URL
+        check_response = requests.get(check_url, headers=headers)
+        if check_response.status_code == 200 and check_response.json():
+            pr_url = check_response.json()[0]["html_url"]
+            print(f"✅ Found existing PR: {pr_url}")
+            return pr_url
+        return None
     else:
-        print("❌ PR creation failed:", response.text)
+        print(f"❌ PR creation failed: {response.text}")
+        return None
