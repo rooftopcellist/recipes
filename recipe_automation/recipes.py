@@ -1,6 +1,7 @@
 from slugify import slugify
 import os
-from utils import get_category_path, extract_file_id, download_image_from_drive
+import re
+from utils import get_category_path, extract_file_id, download_image_from_drive, parse_readme_structure
 
 def format_bulleted_list(raw):
     lines = [line.strip() for line in raw.strip().splitlines() if line.strip()]
@@ -23,20 +24,57 @@ def update_category_readme(category_path, recipe_name, slug):
 
     # Read existing content
     with open(readme_path, "r") as f:
-        lines = f.readlines()
+        content = f.read()
+        lines = content.splitlines(True)  # Keep line endings
 
     # Check if the link already exists
     if any(recipe_link.strip() == line.strip() for line in lines):
         return  # Link already present
 
-    # Insert the link just below the title
-    new_lines = []
+    # Parse the README structure
+    structure = parse_readme_structure(content)
+
+    # Determine where to insert the new link
+    new_lines = lines.copy()
     inserted = False
-    for i, line in enumerate(lines):
-        new_lines.append(line)
-        if not inserted and line.strip().startswith("# "):
-            new_lines.append(recipe_link)
-            inserted = True
+
+    # If we have sections, try to insert in the appropriate section
+    if structure['sections'] and structure['default_section']:
+        section = structure['sections'][structure['default_section']]
+        section_start = section['content_start']
+        section_end = section['content_end']
+
+        # Look for the last recipe link in the section
+        last_link_index = -1
+        for i in range(section_start, section_end + 1):
+            if i < len(lines) and re.search(r'\*\s+\[.+\]\(.+\.md\)', lines[i].strip()):
+                last_link_index = i
+
+        if last_link_index >= 0:
+            # Insert after the last link
+            new_lines.insert(last_link_index + 1, recipe_link)
+        else:
+            # Insert at the beginning of the section content, after any blank lines
+            insert_index = section_start
+            while insert_index < section_end and insert_index < len(lines) and not lines[insert_index].strip():
+                insert_index += 1
+            new_lines.insert(insert_index, recipe_link)
+
+        inserted = True
+    # If no appropriate section found, insert after the title
+    elif structure['main_title']:
+        insert_index = structure['main_title']['line_index'] + 1
+        # If there's a blank line after the title, insert after that
+        if insert_index < len(lines) and lines[insert_index].strip() == "":
+            insert_index += 1
+        new_lines.insert(insert_index, recipe_link)
+        inserted = True
+    # Fallback: just append to the end of the file
+    if not inserted:
+        # Ensure there's a blank line before adding the link if the file doesn't end with one
+        if new_lines and not new_lines[-1].strip() == "":
+            new_lines.append("\n")
+        new_lines.append(recipe_link)
 
     with open(readme_path, "w") as f:
         f.writelines(new_lines)
