@@ -19,24 +19,27 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundler-cache: true
-
-      - name: Create Gemfile if missing
-        run: |
-          if [ ! -f Gemfile ]; then
-            echo 'source "https://rubygems.org"' > Gemfile
-            echo 'gem "jekyll"' >> Gemfile
-            echo 'gem "jekyll-theme-slate"' >> Gemfile
-          fi
 
       - name: Install dependencies
-        run: bundle install
+        run: |
+          bundle config set --local path vendor/bundle
+          bundle install
 
       - name: Build Jekyll site
         run: |
           bundle exec jekyll build --baseurl "/recipes/pr-preview/pr-${{ github.event.pull_request.number }}"
         env:
           JEKYLL_ENV: production
+
+      - name: Verify build output
+        run: |
+          if [ ! -f "_site/index.html" ]; then
+            echo "ERROR: Jekyll build failed - no index.html found in _site/"
+            echo "Contents of _site/:"
+            ls -la _site/ || echo "_site directory does not exist"
+            exit 1
+          fi
+          echo "Build successful - found index.html"
 
       - name: Deploy to preview branch
         uses: peaceiris/actions-gh-pages@v4
