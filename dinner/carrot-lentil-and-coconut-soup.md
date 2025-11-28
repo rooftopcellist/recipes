@@ -10,8 +10,29 @@ Modified recipe from a couple's cooking class
 
 ## Ingredients
 
-* For the soup: Two large carrots, two shallots, 1 roma tomato, 1.25-1.5 cups red lentils, 1 can coconut milk, 2.5 tsp (heaping) red curry paste, 0.5 tsp ground ginger, 0.5 tsp turmeric, 0.5 tsp ground cumin, 4 cups vegetable stock or 2 boiled bullion cubes.
-* For the tarka: 2 Tbsp canola/vegetable oil, 1 tsp yellow mustard seeds, 1/2 tsp crushed red pepper flakes, 1 clove minced garlic, 1 tsp kosher salt, 1 Tbsp honey, ~1 tsp lime juice, 1/2 cup minced fresh cilantro leaves.
+### For the Soup
+
+* 2 large carrots
+* 2 shallots
+* 1 roma tomato
+* 1.25-1.5 cups red lentils
+* 1 can coconut milk
+* 2.5 tsp (heaping) red curry paste
+* 0.5 tsp ground ginger
+* 0.5 tsp turmeric
+* 0.5 tsp ground cumin
+* 4 cups vegetable stock or 2 boiled bullion cubes
+
+### For the Tarka
+
+* 2 Tbsp canola/vegetable oil
+* 1 tsp yellow mustard seeds
+* 1/2 tsp crushed red pepper flakes
+* 1 clove minced garlic
+* 1 tsp kosher salt
+* 1 Tbsp honey
+* ~1 tsp lime juice
+* 1/2 cup minced fresh cilantro leaves
 
 ## Directions
 
