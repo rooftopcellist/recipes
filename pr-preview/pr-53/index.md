@@ -6,15 +6,16 @@ A collection of recipes in our family and community that have become standards a
 
 ## Table of Contents
 
-* [Baking](./baking/README.md)
-* [Brews](./brews/README.md)
-* [Cocktails](./cocktails/README.md)
-* [Desserts](./desserts/README.md)
-* [Dinner](./dinner/README.md)
-* [Meal Prep](./meal-prep/README.md)
-* [Quick Meals](./quick-meals/README.md)
-* [Sauces](./sauces/README.md)
-* [Thanksgiving](./thanksgiving/README.md)
+* [Baking](./baking/)
+* [Brews](./brews/)
+* [Cocktails](./cocktails/)
+* [Desserts](./desserts/)
+* [Dinner](./dinner/)
+* [Meal Prep](./meal-prep/)
+* [Quick Meals](./quick-meals/)
+* [Sauces](./sauces/)
+* [Smoothies](./smoothies/)
+* [Thanksgiving](./thanksgiving/)
 
 I hope you enjoy!
 
