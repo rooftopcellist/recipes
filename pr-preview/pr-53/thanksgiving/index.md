@@ -1,6 +1,6 @@
 {% include nav.md %}
 
-# Collection of the Best Thanksgiving Recipes
+## Collection of the Best Thanksgiving Recipes
 
 ### Sides
 

@@ -1,5 +1,5 @@
 {% include nav.md %}
 
-# Meal Prep
+## Meal Prep
 
 - [Slop Trough (Cheeseburger bowl)](./slop-trough.md)

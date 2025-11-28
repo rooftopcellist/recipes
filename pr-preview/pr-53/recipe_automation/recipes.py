@@ -37,11 +37,11 @@ def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
     readme_path = os.path.join(actual_category_path, "index.md")
     recipe_link = f"* [{recipe_name}]({slug}.md)\n"
 
-    # Create the README with navigation, title, and link if it doesn't exist
+    # Create the index with navigation, title, and link if it doesn't exist
     if not os.path.exists(readme_path):
         with open(readme_path, "w") as f:
             f.write("{% include nav.md %}\n\n")
-            f.write(f"# {os.path.basename(category_path).capitalize()}\n\n")
+            f.write(f"## {os.path.basename(category_path).capitalize()}\n\n")
             f.write(recipe_link)
         return
 
