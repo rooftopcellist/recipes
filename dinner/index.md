@@ -1,6 +1,6 @@
 {% include nav.md %}
 
-# Dinner
+## Dinner
 
 ## Babish Dinner
 

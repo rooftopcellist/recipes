@@ -1,6 +1,6 @@
 {% include nav.md %}
 
-# Cocktail Recipes
+## Cocktail Recipes
 
 * [Passionfruit Margarita](./passionfruit-margarita.md)
 * [Coquito](./coquito.md)

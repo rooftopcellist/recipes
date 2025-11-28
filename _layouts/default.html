@@ -21,6 +21,7 @@
         font-size: 0.95rem;
         border-radius: 4px;
         transition: background-color 0.2s ease;
+        white-space: nowrap;
       }
       nav.site-nav a:hover {
         background-color: rgba(255, 255, 255, 0.15);
@@ -47,25 +48,25 @@
           <nav class="site-nav">
             <a href="{{ "/" | relative_url }}">Home</a>
             <span class="separator">·</span>
-            <a href="{{ "/baking/README" | relative_url }}">Baking</a>
+            <a href="{{ "/baking/" | relative_url }}">Baking</a>
             <span class="separator">·</span>
-            <a href="{{ "/brews/README" | relative_url }}">Brews</a>
+            <a href="{{ "/brews/" | relative_url }}">Brews</a>
             <span class="separator">·</span>
-            <a href="{{ "/cocktails/README" | relative_url }}">Cocktails</a>
+            <a href="{{ "/cocktails/" | relative_url }}">Cocktails</a>
             <span class="separator">·</span>
-            <a href="{{ "/desserts/README" | relative_url }}">Desserts</a>
+            <a href="{{ "/desserts/" | relative_url }}">Desserts</a>
             <span class="separator">·</span>
-            <a href="{{ "/dinner/README" | relative_url }}">Dinner</a>
+            <a href="{{ "/dinner/" | relative_url }}">Dinner</a>
             <span class="separator">·</span>
-            <a href="{{ "/meal-prep/README" | relative_url }}">Meal Prep</a>
+            <a href="{{ "/meal-prep/" | relative_url }}">Meal Prep</a>
             <span class="separator">·</span>
-            <a href="{{ "/quick-meals/README" | relative_url }}">Quick Meals</a>
+            <a href="{{ "/quick-meals/" | relative_url }}">Quick Meals</a>
             <span class="separator">·</span>
-            <a href="{{ "/sauces/README" | relative_url }}">Sauces</a>
+            <a href="{{ "/sauces/" | relative_url }}">Sauces</a>
             <span class="separator">·</span>
-            <a href="{{ "/smoothies/README" | relative_url }}">Smoothies</a>
+            <a href="{{ "/smoothies/" | relative_url }}">Smoothies</a>
             <span class="separator">·</span>
-            <a href="{{ "/thanksgiving/README" | relative_url }}">Thanksgiving</a>
+            <a href="{{ "/thanksgiving/" | relative_url }}">Thanksgiving</a>
           </nav>
 
           {% if site.show_downloads %}

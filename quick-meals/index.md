@@ -1,6 +1,6 @@
 {% include nav.md %}
 
-# Quick Meals
+## Quick Meals
 
 ## Favorites
 
