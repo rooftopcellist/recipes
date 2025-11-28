@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Grandma Betty's Famous Banana Bread
 
 ### Step one, call Gma and tell you you love her

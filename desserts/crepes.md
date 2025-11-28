@@ -1,6 +1,8 @@
+{% include nav.md %}
+
 # Danish Style Crepes
 
-> Note: Fun fact, crepes actually originated in England.  
+> Note: Fun fact, crepes actually originated in England.
 
 ## Ingredients
 * 2 large eggs

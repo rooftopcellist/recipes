@@ -1,7 +1,8 @@
+{% include nav.md %}
+
 # Quick Meals
 
 ## Favorites
-* [Habenero Jalapeno Hot Sauce](habenero-jalapeno-hot-sauce.md)
 
 ## Meals to Try
 

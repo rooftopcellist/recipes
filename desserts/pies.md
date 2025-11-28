@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Pie Mischief
 
 ### The Crust

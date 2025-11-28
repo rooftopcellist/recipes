@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 ### Fried Tofo Over Rice
 
 # INGREDIENTS

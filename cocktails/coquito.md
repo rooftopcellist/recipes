@@ -1,6 +1,8 @@
+{% include nav.md %}
+
 # Coquito Recipe
 
-There are different versions of this drink throughout Latin America. I invited Daniella Senior, co-owner of Colada Shop & Serenata, to compare Dominican Ponche Crema to Coquito. 
+There are different versions of this drink throughout Latin America. I invited Daniella Senior, co-owner of Colada Shop & Serenata, to compare Dominican Ponche Crema to Coquito.
 
 Thanks again to The National Museum of Puerto Rican Arts & Culture for your support!
 
