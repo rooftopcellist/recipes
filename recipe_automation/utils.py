@@ -15,6 +15,7 @@ def get_category_path(category):
         "dinner": "dinner",
         "brews": "brews",
         "meal prep": "meal-prep",
+        "sauces": "sauces",
         "smoothies": "smoothies",
         "thanksgiving": "thanksgiving"
     }
