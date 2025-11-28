@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Habanero Jalapeño Hot Sauce
 
 ![Habanero Jalapeño Hot Sauce](images/habenero-jalapeno-hot-sauce.jpeg)

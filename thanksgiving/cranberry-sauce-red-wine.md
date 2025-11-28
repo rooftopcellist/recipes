@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Cranberry Sauce with Red Wine
 
 ## Ingredients

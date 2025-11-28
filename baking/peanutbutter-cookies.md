@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Peanut Butter Cookies
 
 ![peanutbutter-cookies](../images/peanutbutter-cookies.jpg){:class="img-responsive"}

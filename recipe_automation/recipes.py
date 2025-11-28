@@ -37,9 +37,10 @@ def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
     readme_path = os.path.join(actual_category_path, "README.md")
     recipe_link = f"* [{recipe_name}]({slug}.md)\n"
 
-    # Create the README with title and link if it doesn't exist
+    # Create the README with navigation, title, and link if it doesn't exist
     if not os.path.exists(readme_path):
         with open(readme_path, "w") as f:
+            f.write("{% include nav.md %}\n\n")
             f.write(f"# {os.path.basename(category_path).capitalize()}\n\n")
             f.write(recipe_link)
         return
@@ -191,8 +192,9 @@ def create_markdown(recipe, temp_dir=None):
     ingredients = format_bulleted_list(recipe["Ingredients"])
     instructions = format_numbered_list(recipe["Instructions for Preparation"])
 
-    # Start assembling markdown
-    content = f"# {recipe['Recipe Name'].strip()}\n\n"
+    # Start assembling markdown with navigation include
+    content = "{% include nav.md %}\n\n"
+    content += f"# {recipe['Recipe Name'].strip()}\n\n"
 
     if image_ref:
         content += image_ref + "\n"

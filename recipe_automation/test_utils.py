@@ -80,9 +80,10 @@ def update_category_readme(category_path, recipe_name, slug):
     readme_path = os.path.join(category_path, "README.md")
     recipe_link = f"* [{recipe_name}]({slug}.md)\n"
 
-    # Create the README with title and link if it doesn't exist
+    # Create the README with navigation, title, and link if it doesn't exist
     if not os.path.exists(readme_path):
         with open(readme_path, "w") as f:
+            f.write("{% include nav.md %}\n\n")
             f.write(f"# {os.path.basename(category_path).capitalize()}\n\n")
             f.write(recipe_link)
         return

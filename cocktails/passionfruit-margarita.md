@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Passionfruit Margarita Recipe
 
 <img src="https://raw.githubusercontent.com/rooftopcellist/recipes/master/cocktails/images/passionfruit-margarita.jpeg" height="350">

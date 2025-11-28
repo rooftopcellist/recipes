@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Pinapple Ginger Smoothie
 
 ## Ingredients

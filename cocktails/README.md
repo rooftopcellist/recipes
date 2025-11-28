@@ -1,3 +1,5 @@
+{% include nav.md %}
+
 # Cocktail Recipes
 
 * [Passionfruit Margarita](./passionfruit-margarita.md)
