@@ -12,7 +12,7 @@ def format_numbered_list(raw):
     return "\n".join(f"{i+1}. {line}" for i, line in enumerate(lines))
 
 def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
-    """Update the README.md file in the given category path with a link to the new recipe.
+    """Update the index.md file in the given category path with a link to the new recipe.
 
     Args:
         category_path: The path to the category directory
@@ -21,20 +21,20 @@ def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
         temp_dir: The path to the temporary directory containing the cloned repository
 
     Returns:
-        str: The path to the updated README.md file
+        str: The path to the updated index.md file
     """
     # Determine the actual path to use (either in the temp_dir or local)
     if temp_dir:
         # Use the path in the temporary directory
         rel_category_path = os.path.relpath(category_path)
         actual_category_path = os.path.join(temp_dir, rel_category_path)
-        print(f"📗 Updating README.md in temporary directory: {actual_category_path}")
+        print(f"📗 Updating index.md in temporary directory: {actual_category_path}")
     else:
         # Use the local path
         actual_category_path = category_path
-        print(f"📗 Updating local README.md: {actual_category_path}")
+        print(f"📗 Updating local index.md: {actual_category_path}")
 
-    readme_path = os.path.join(actual_category_path, "README.md")
+    readme_path = os.path.join(actual_category_path, "index.md")
     recipe_link = f"* [{recipe_name}]({slug}.md)\n"
 
     # Create the README with navigation, title, and link if it doesn't exist
@@ -105,7 +105,7 @@ def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
     return readme_path
 
 def create_markdown(recipe, temp_dir=None):
-    """Create a markdown file for the recipe and update the README.md file.
+    """Create a markdown file for the recipe and update the index.md file.
 
     Args:
         recipe: The recipe data
@@ -226,14 +226,14 @@ _Enjoy!_
     with open(recipe_path, "w") as f:
         f.write(content)
 
-    # ✅ Update the category README.md in the appropriate location
+    # ✅ Update the category index.md in the appropriate location
     readme_path = update_category_readme(category_path, recipe["Recipe Name"], slug, temp_dir)
 
     # Return all files for git staging
     if temp_dir:
         # Use relative paths for git staging
         rel_recipe_path = os.path.relpath(os.path.join(category_path, f"{slug}.md"))
-        rel_readme_path = os.path.relpath(os.path.join(category_path, "README.md"))
+        rel_readme_path = os.path.relpath(os.path.join(category_path, "index.md"))
         return rel_recipe_path, slug, extra_paths_to_add + [rel_readme_path]
     else:
-        return recipe_path, slug, extra_paths_to_add + [os.path.join(category_path, "README.md")]
+        return recipe_path, slug, extra_paths_to_add + [os.path.join(category_path, "index.md")]
