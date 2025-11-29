@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+
+{% seo %}
+    {% include head-custom.html %}
+    <style>
+      nav.site-nav {
+        margin-top: 1rem;
+        text-align: left;
+      }
+      nav.site-nav a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.95rem;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+        white-space: nowrap;
+      }
+      nav.site-nav a:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+      }
+      nav.site-nav span.separator {
+        color: rgba(255, 255, 255, 0.4);
+        margin: 0 0.2rem;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          {% if site.github.is_project_page %}
+            <a id="forkme_banner" href="{{ site.github.repository_url }}">View on GitHub</a>
+          {% endif %}
+
+          <h1 id="project_title"><a href="{{ "/" | relative_url }}" style="color: white; text-decoration: none;">Family Recipes</a></h1>
+
+          <nav class="site-nav">
+            <a href="{{ "/" | relative_url }}">Home</a>
+            <span class="separator">·</span>
+            <a href="{{ "/baking/" | relative_url }}">Baking</a>
+            <span class="separator">·</span>
+            <a href="{{ "/brews/" | relative_url }}">Brews</a>
+            <span class="separator">·</span>
+            <a href="{{ "/cocktails/" | relative_url }}">Cocktails</a>
+            <span class="separator">·</span>
+            <a href="{{ "/desserts/" | relative_url }}">Desserts</a>
+            <span class="separator">·</span>
+            <a href="{{ "/dinner/" | relative_url }}">Dinner</a>
+            <span class="separator">·</span>
+            <a href="{{ "/meal-prep/" | relative_url }}">Meal Prep</a>
+            <span class="separator">·</span>
+            <a href="{{ "/quick-meals/" | relative_url }}">Quick Meals</a>
+            <span class="separator">·</span>
+            <a href="{{ "/sauces/" | relative_url }}">Sauces</a>
+            <span class="separator">·</span>
+            <a href="{{ "/smoothies/" | relative_url }}">Smoothies</a>
+            <span class="separator">·</span>
+            <a href="{{ "/thanksgiving/" | relative_url }}">Thanksgiving</a>
+          </nav>
+
+          {% if site.show_downloads %}
+            <section id="downloads">
+              <a class="zip_download_link" href="{{ site.github.zip_url }}">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="{{ site.github.tar_url }}">Download this project as a tar.gz file</a>
+            </section>
+          {% endif %}
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        {{ content }}
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        {% if site.github.is_project_page %}
+        <p class="copyright">{{ site.title | default: site.github.repository_name }} maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+        {% endif %}
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
+

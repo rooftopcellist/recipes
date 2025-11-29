@@ -40,14 +40,14 @@ def main():
                 new_branch = repo.create_head(branch)
                 new_branch.checkout()
 
-                # Create the markdown file and update README.md in the temporary directory
+                # Create the markdown file and update index.md in the temporary directory
                 recipe_path, slug, extra_files = create_markdown(recipe, temp_dir)
 
                 # Log the files that will be committed
                 print(f"📝 Files to be committed:")
                 print(f"  - Recipe: {recipe_path}")
                 for file in extra_files:
-                    file_type = "README" if os.path.basename(file) == "README.md" else "Image" if file.startswith("images/") else "Other"
+                    file_type = "Index" if os.path.basename(file) == "index.md" else "Image" if file.startswith("images/") else "Other"
                     print(f"  - {file_type}: {file}")
 
                 # Commit and push the changes

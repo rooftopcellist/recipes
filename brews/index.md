@@ -1,6 +1,6 @@
 {% include nav.md %}
 
-# Brew Protocols & Recipes
+## Brew Protocols & Recipes
 
 ## About
 
