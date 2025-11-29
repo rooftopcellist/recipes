@@ -1,6 +1,6 @@
 {% include nav.md %}
 
-# Smoothies
+## Smoothies
 
 * [Pinapple Ginger](./pinapple-ginger.md)
 
