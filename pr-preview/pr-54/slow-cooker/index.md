@@ -2,5 +2,5 @@
 
 ## Slow Cooker
 
-Recipes that are perfect for slow cooking - set it and forget it!
+Recipes that are perfect for slow cookers - set it and forget it!
 
