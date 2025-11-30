@@ -14,6 +14,7 @@ A collection of recipes in our family and community that have become standards a
 * [Meal Prep](./meal-prep/)
 * [Quick Meals](./quick-meals/)
 * [Sauces](./sauces/)
+* [Slow Cooker](./slow-cooker/)
 * [Smoothies](./smoothies/)
 * [Thanksgiving](./thanksgiving/)
 
