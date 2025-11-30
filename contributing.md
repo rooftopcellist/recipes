@@ -21,6 +21,13 @@ After you create a pull request, it will be reviewed and merged by on of the mai
 
 ### Add recipe via form
 
+The easiest way to contribute a recipe is by filling out our Google Form:
+
+**[Submit a Recipe](https://forms.gle/GwuBYMKoseXQhZeu8)**
+
+Once a week, recipe submissions will be reviewed and added to the site.
+
+**Note:** When filling out the ingredients and instructions, please use line breaks to make it easier to read. Each new line will be shown as a bullet point in a list when it is published on the website.
 
 ### Add recipe via code contribution
 
