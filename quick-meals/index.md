@@ -1,6 +1,7 @@
 {% include nav.md %}
 
 ## Quick Meals
+* [Butter Chicken](butter-chicken.md)
 
 ## Favorites
 
