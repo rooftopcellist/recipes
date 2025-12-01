@@ -27,6 +27,8 @@ Meg's favorite Butter Chicken recipe, a meal we fell in love with on our Honeymo
 * 1 cup low-fat plain yogurt
 * salt to taste
 
+> Note: If you don't have tandoori masala, you can substitute with 2 teaspoons worth of Chili powder, garlic powder, cumin, coriander, paprika, and ginger.
+
 ## Directions
 
 1. Gather all ingredients.
@@ -34,5 +36,7 @@ Meg's favorite Butter Chicken recipe, a meal we fell in love with on our Honeymo
 3. Stir in tomato paste, curry paste, curry powder, tandoori masala, and garam masala until no lumps of tomato paste remain.
 4. Pour mixture into a slow cooker. Stir in cardamom pods, coconut milk, and yogurt; season with salt.
 5. Cook on High for 4 to 6 hours or Low for 6 to 8 hours, or until chicken is tender and sauce has reduced to the desired consistency. Remove and discard cardamom pods before serving.
+
+> Note: If you want to add some extra heat, use hot thai curry paste instead of regular curry paste. Or just add some ground cayenne pepper.
 
 _Enjoy!_
