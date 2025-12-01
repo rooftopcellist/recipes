@@ -3,12 +3,48 @@ import os
 import re
 from utils import get_category_path, extract_file_id, download_image_from_drive, parse_readme_structure
 
+def strip_list_prefix(line):
+    """Remove any existing bullet or number prefix from a line.
+
+    Handles:
+    - Bullets: *, -, •
+    - Numbers: 1., 1), 1:, etc.
+    - Combinations like "* -" or "1. 1."
+    """
+    stripped = line.strip()
+    # Keep stripping prefixes until no more are found
+    changed = True
+    while changed:
+        changed = False
+        # Strip bullet prefixes: *, -, •
+        if stripped and stripped[0] in '*-•':
+            stripped = stripped[1:].lstrip()
+            changed = True
+        # Strip number prefixes: digits followed by . or ) or :
+        match = re.match(r'^(\d+)\s*[.):]\s*', stripped)
+        if match:
+            stripped = stripped[match.end():].lstrip()
+            changed = True
+    return stripped
+
 def format_bulleted_list(raw):
-    lines = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+    """Format raw text as a bulleted list.
+
+    Strips any existing bullets/numbers and adds consistent bullet formatting.
+    Each non-empty line becomes a bullet point.
+    """
+    lines = [strip_list_prefix(line) for line in raw.strip().splitlines()]
+    lines = [line for line in lines if line]  # Remove empty lines
     return "\n".join(f"* {line}" for line in lines)
 
 def format_numbered_list(raw):
-    lines = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+    """Format raw text as a numbered list.
+
+    Strips any existing bullets/numbers and adds consistent numbered formatting.
+    Each non-empty line becomes a numbered step.
+    """
+    lines = [strip_list_prefix(line) for line in raw.strip().splitlines()]
+    lines = [line for line in lines if line]  # Remove empty lines
     return "\n".join(f"{i+1}. {line}" for i, line in enumerate(lines))
 
 def update_category_readme(category_path, recipe_name, slug, temp_dir=None):

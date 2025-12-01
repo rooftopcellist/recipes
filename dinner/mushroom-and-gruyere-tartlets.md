@@ -1,4 +1,4 @@
-# Mushroom and gruyere tartlets
+# Mushroom and Gruyere Tartlets
 
 These tartlets are crack. Don't bring them to a party if you are bad at sharing food. Or alternatively, make a secret second batch just for yourself.
 
