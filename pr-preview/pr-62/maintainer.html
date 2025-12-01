@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/recipes/pr-preview/pr-62/assets/css/style.css?v=">
+
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Maintainer Guide</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Maintainer Guide" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Maintainer Guide" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","headline":"Maintainer Guide","url":"/recipes/pr-preview/pr-62/maintainer.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+<!-- Setup Google Analytics -->
+
+
+
+<!-- You can set your favicon here -->
+<!-- link rel="shortcut icon" type="image/x-icon" href="/recipes/pr-preview/pr-62/favicon.ico" -->
+
+<!-- end custom head snippets -->
+
+    <style>
+      nav.site-nav {
+        margin-top: 1rem;
+        text-align: left;
+      }
+      nav.site-nav a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.95rem;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+        white-space: nowrap;
+      }
+      nav.site-nav a:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+      }
+      nav.site-nav span.separator {
+        color: rgba(255, 255, 255, 0.4);
+        margin: 0 0.2rem;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          
+
+          <h1 id="project_title"><a href="/recipes/pr-preview/pr-62/" style="color: white; text-decoration: none;">Family Recipes</a></h1>
+
+          <nav class="site-nav">
+            <a href="/recipes/pr-preview/pr-62/">Home</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/baking/">Baking</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/brews/">Brews</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/cocktails/">Cocktails</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/desserts/">Desserts</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/dinner/">Dinner</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/meal-prep/">Meal Prep</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/quick-meals/">Quick Meals</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/sauces/">Sauces</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/smoothies/">Smoothies</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-62/thanksgiving/">Thanksgiving</a>
+          </nav>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="maintainer-guide">Maintainer Guide</h1>
+
+<p>This document covers maintenance tasks for the recipes site.</p>
+
+<h2 id="recipe-automation">Recipe Automation</h2>
+
+<p>The recipe automation script automatically creates pull requests from Google Form submissions.</p>
+
+<h3 id="setup">Setup</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make setup-automation
+</code></pre></div></div>
+
+<p>This will:</p>
+<ul>
+  <li>Create a Python virtual environment in <code class="language-plaintext highlighter-rouge">recipe_automation/venv</code></li>
+  <li>Install required dependencies from <code class="language-plaintext highlighter-rouge">requirements.txt</code></li>
+</ul>
+
+<h3 id="running-the-automation">Running the Automation</h3>
+
+<p>Before running, ensure you have:</p>
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">GITHUB_TOKEN</code> environment variable set</li>
+  <li><code class="language-plaintext highlighter-rouge">credentials.json</code> for Google API access in the <code class="language-plaintext highlighter-rouge">recipe_automation</code> directory</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">GITHUB_TOKEN</span><span class="o">=</span>your_github_token
+make run-automation
+</code></pre></div></div>
+
+<h3 id="what-the-script-does">What the Script Does</h3>
+
+<ol>
+  <li>Fetches new recipe submissions from Google Sheets</li>
+  <li>Creates properly formatted Markdown files</li>
+  <li>Downloads uploaded photos from Google Drive</li>
+  <li>Creates a Git branch and commits the new recipe</li>
+  <li>Opens a pull request to the main repository</li>
+</ol>
+
+<p>See <code class="language-plaintext highlighter-rouge">recipe_automation/README.md</code> for more detailed setup instructions.</p>
+
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
+
