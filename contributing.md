@@ -1,3 +1,7 @@
+---
+---
+{% include nav.md %}
+
 # Contribute your Recipes!
 
 ## Open a Pull Request

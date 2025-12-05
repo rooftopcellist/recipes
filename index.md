@@ -18,6 +18,10 @@ A collection of recipes in our family and community that have become standards a
 * [Smoothies](./smoothies/)
 * [Thanksgiving](./thanksgiving/)
 
+## Contribute a Recipe
+
+Have a favorite recipe to share? We'd love to have it! Check out our [Contributing Guide](./contributing.md) to learn how you can add your recipes to this collection.
+
 I hope you enjoy!
 
 P.S.: Drop me a line if you have found this useful at _rooftopcellist@gmail.com_  
