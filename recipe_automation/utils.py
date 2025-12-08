@@ -98,7 +98,16 @@ def parse_readme_structure(content):
 
     return structure
 
-def download_image_from_drive(file_id, dest_path):
+def download_image_from_drive(file_id, dest_path, standardize=True):
+    """Download an image from Google Drive and optionally standardize it.
+
+    Args:
+        file_id: The Google Drive file ID.
+        dest_path: The destination path for the downloaded image.
+        standardize: If True, standardize the image after download (default: True).
+    """
+    from image_utils import standardize_image
+
     creds = service_account.Credentials.from_service_account_file("credentials.json", scopes=["https://www.googleapis.com/auth/drive"])
     service = build("drive", "v3", credentials=creds)
 
@@ -109,3 +118,8 @@ def download_image_from_drive(file_id, dest_path):
     done = False
     while done is False:
         _, done = downloader.next_chunk()
+
+    # Standardize the downloaded image
+    if standardize:
+        standardize_image(dest_path, dest_path)
+        print(f"📐 Standardized image: {dest_path}")
