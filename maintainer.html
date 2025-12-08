@@ -86,6 +86,8 @@
             <a href="/recipes/smoothies/">Smoothies</a>
             <span class="separator">·</span>
             <a href="/recipes/thanksgiving/">Thanksgiving</a>
+            <span class="separator">·</span>
+            <a href="/recipes/contributing.html">Contribute</a>
           </nav>
 
           
@@ -132,12 +134,122 @@ make run-automation
   <li>Fetches new recipe submissions from Google Sheets</li>
   <li>Creates properly formatted Markdown files</li>
   <li>Downloads uploaded photos from Google Drive</li>
+  <li>Standardizes images to consistent size and format</li>
   <li>Creates a Git branch and commits the new recipe</li>
   <li>Opens a pull request to the main repository</li>
 </ol>
 
 <p>See <code class="language-plaintext highlighter-rouge">recipe_automation/README.md</code> for more detailed setup instructions.</p>
 
+<h2 id="image-standardization">Image Standardization</h2>
+
+<p>All recipe images are automatically standardized to ensure consistency across the site. This happens automatically when images are downloaded during recipe automation.</p>
+
+<h3 id="default-settings">Default Settings</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Setting</th>
+      <th>Default Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Max Width</td>
+      <td>800px</td>
+    </tr>
+    <tr>
+      <td>Max Height</td>
+      <td>600px</td>
+    </tr>
+    <tr>
+      <td>Format</td>
+      <td>JPEG</td>
+    </tr>
+    <tr>
+      <td>Quality</td>
+      <td>85%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Images smaller than the max dimensions are not upscaled. Aspect ratio is always preserved.</p>
+
+<h3 id="standalone-image-processing">Standalone Image Processing</h3>
+
+<p>You can also standardize images manually using the Make target:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Basic usage - standardizes in place</span>
+make standardize-image <span class="nv">IMAGE</span><span class="o">=</span>path/to/image.jpg
+
+<span class="c"># Specify output file</span>
+make standardize-image <span class="nv">IMAGE</span><span class="o">=</span>input.jpg <span class="nv">OUTPUT</span><span class="o">=</span>output.jpg
+
+<span class="c"># Custom dimensions</span>
+make standardize-image <span class="nv">IMAGE</span><span class="o">=</span>photo.jpg <span class="nv">MAX_WIDTH</span><span class="o">=</span>1024 <span class="nv">MAX_HEIGHT</span><span class="o">=</span>768
+
+<span class="c"># Custom format and quality</span>
+make standardize-image <span class="nv">IMAGE</span><span class="o">=</span>photo.png <span class="nv">FORMAT</span><span class="o">=</span>WEBP <span class="nv">QUALITY</span><span class="o">=</span>90
+</code></pre></div></div>
+
+<h3 id="available-options">Available Options</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">IMAGE</code></td>
+      <td>Input image path (required)</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">OUTPUT</code></td>
+      <td>Output path (optional, overwrites input if not set)</td>
+      <td>Same as input</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">MAX_WIDTH</code></td>
+      <td>Maximum width in pixels</td>
+      <td>800</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">MAX_HEIGHT</code></td>
+      <td>Maximum height in pixels</td>
+      <td>600</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">FORMAT</code></td>
+      <td>Output format (JPEG, PNG, WEBP)</td>
+      <td>JPEG</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">QUALITY</code></td>
+      <td>Quality for lossy formats (1-100)</td>
+      <td>85</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="programmatic-usage">Programmatic Usage</h3>
+
+<p>The image utilities can also be used directly in Python:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">image_utils</span> <span class="kn">import</span> <span class="n">standardize_image</span><span class="p">,</span> <span class="n">get_image_info</span>
+
+<span class="c1"># Get info about an image
+</span><span class="n">info</span> <span class="o">=</span> <span class="nf">get_image_info</span><span class="p">(</span><span class="sh">"</span><span class="s">photo.jpg</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Size: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="sh">'</span><span class="s">width</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="s">x</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="sh">'</span><span class="s">height</span><span class="sh">'</span><span class="p">]</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="c1"># Standardize an image
+</span><span class="nf">standardize_image</span><span class="p">(</span><span class="sh">"</span><span class="s">input.jpg</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">output.jpg</span><span class="sh">"</span><span class="p">,</span> <span class="n">max_width</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">quality</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+</code></pre></div></div>
 
       </section>
     </div>
