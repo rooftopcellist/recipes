@@ -2,6 +2,8 @@
 
 # Oatmeal Chocolate Chip Cookies
 
+![Oatmeal Chocolate Chip Cookies](images/oatmeal-cookies-manual.jpeg)
+
 Crispy, salty, delicious.
 
 **Author:** Christian Adams
