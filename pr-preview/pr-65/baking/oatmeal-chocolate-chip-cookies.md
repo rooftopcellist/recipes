@@ -12,6 +12,8 @@ Crispy, salty, delicious.
 
 **Best Paired With:** Makes 3 dozen, 4 pans worth.
 
+<div style="clear: both;"></div>
+
 ## Ingredients
 
 * 1 cup / 227 grams (2 sticks) unsalted butter, softened, more for pans
