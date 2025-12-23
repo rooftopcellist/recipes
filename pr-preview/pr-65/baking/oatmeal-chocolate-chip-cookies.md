@@ -2,7 +2,7 @@
 
 # Oatmeal Chocolate Chip Cookies
 
-![Oatmeal Chocolate Chip Cookies](images/oatmeal-cookies-manual.jpeg)
+<img src="images/oatmeal-cookies-manual.jpeg" alt="Oatmeal Chocolate Chip Cookies" height="300" align="left" style="margin-right: 15px; margin-bottom: 10px;">
 
 Crispy, salty, delicious.
 
