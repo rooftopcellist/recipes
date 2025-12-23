@@ -1,0 +1,8 @@
+gspread
+oauth2client
+python-slugify
+GitPython
+requests
+google-api-python-client
+google-auth
+Pillow
