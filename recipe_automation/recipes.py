@@ -206,7 +206,7 @@ def create_markdown(recipe, temp_dir=None):
 
                 # Use the relative path for the markdown
                 image_rel_path = os.path.join("images", f"{slug}.{image_ext}")
-                image_ref = f"![{recipe['Recipe Name']}]({image_rel_path})\n"
+                image_ref = f'<img src="{image_rel_path}" alt="{recipe["Recipe Name"]}" height="300" align="left" style="margin-right: 15px; margin-bottom: 10px;">\n'
 
                 # Add the image path to the list of files to commit
                 if temp_dir:
@@ -244,6 +244,10 @@ def create_markdown(recipe, temp_dir=None):
         content += f"**Serves:** {serves}\n\n"
     if notes:
         content += f"**Best Paired With:** {notes}\n\n"
+
+    # Clear the float before ingredients section so it appears below the image
+    if image_ref:
+        content += '<div style="clear: both;"></div>\n\n'
 
     content += f"""## Ingredients
 
