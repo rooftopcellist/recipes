@@ -46,10 +46,10 @@ All recipe images are automatically standardized to ensure consistency across th
 
 | Setting | Default Value |
 |---------|---------------|
-| Max Width | 800px |
-| Max Height | 600px |
+| Max Width | 1024px |
+| Max Height | 768px |
 | Format | JPEG |
-| Quality | 85% |
+| Quality | 95% |
 
 Images smaller than the max dimensions are not upscaled. Aspect ratio is always preserved.
 
@@ -77,10 +77,10 @@ make standardize-image IMAGE=photo.png FORMAT=WEBP QUALITY=90
 |--------|-------------|---------|
 | `IMAGE` | Input image path (required) | - |
 | `OUTPUT` | Output path (optional, overwrites input if not set) | Same as input |
-| `MAX_WIDTH` | Maximum width in pixels | 800 |
-| `MAX_HEIGHT` | Maximum height in pixels | 600 |
+| `MAX_WIDTH` | Maximum width in pixels | 1024 |
+| `MAX_HEIGHT` | Maximum height in pixels | 768 |
 | `FORMAT` | Output format (JPEG, PNG, WEBP) | JPEG |
-| `QUALITY` | Quality for lossy formats (1-100) | 85 |
+| `QUALITY` | Quality for lossy formats (1-100) | 95 |
 
 ### Programmatic Usage
 
