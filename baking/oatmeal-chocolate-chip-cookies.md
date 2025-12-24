@@ -2,6 +2,8 @@
 
 # Oatmeal Chocolate Chip Cookies
 
+<img src="images/oatmeal-cookies-manual.jpeg" alt="Oatmeal Chocolate Chip Cookies" height="300" align="left" style="margin-right: 15px; margin-bottom: 10px;">
+
 Crispy, salty, delicious.
 
 **Author:** Christian Adams
@@ -9,6 +11,8 @@ Crispy, salty, delicious.
 **Serves:** 6
 
 **Best Paired With:** Makes 3 dozen, 4 pans worth.
+
+<div style="clear: both;"></div>
 
 ## Ingredients
 

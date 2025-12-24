@@ -18,7 +18,7 @@ run-automation:
 	cd recipe_automation && . venv/bin/activate && python main.py
 
 # Image standardization target
-# Usage: make standardize-image IMAGE=path/to/image.jpg [OUTPUT=path/to/output.jpg] [MAX_WIDTH=800] [MAX_HEIGHT=600] [FORMAT=JPEG] [QUALITY=85]
+# Usage: make standardize-image IMAGE=path/to/image.jpg [OUTPUT=path/to/output.jpg] [MAX_WIDTH=800] [MAX_HEIGHT=600] [FORMAT=JPEG] [QUALITY=95]
 standardize-image:
 ifndef IMAGE
 	$(error IMAGE is required. Usage: make standardize-image IMAGE=path/to/image.jpg)
