@@ -9,10 +9,10 @@ import os
 from PIL import Image
 
 # Default settings for standardized images
-DEFAULT_MAX_WIDTH = 800
-DEFAULT_MAX_HEIGHT = 600
+DEFAULT_MAX_WIDTH = 1024
+DEFAULT_MAX_HEIGHT = 768
 DEFAULT_FORMAT = "JPEG"
-DEFAULT_QUALITY = 85
+DEFAULT_QUALITY = 95
 
 
 def standardize_image(
@@ -29,10 +29,10 @@ def standardize_image(
     Args:
         input_path: Path to the input image file.
         output_path: Path for the output image. If None, overwrites input file.
-        max_width: Maximum width of the output image (default: 800).
-        max_height: Maximum height of the output image (default: 600).
+        max_width: Maximum width of the output image (default: 1024).
+        max_height: Maximum height of the output image (default: 768).
         output_format: Output format (default: "JPEG"). Supports JPEG, PNG, WEBP.
-        quality: Output quality for lossy formats (1-100, default: 85).
+        quality: Output quality for lossy formats (1-100, default: 95).
 
     Returns:
         Path to the standardized image.
@@ -52,6 +52,10 @@ def standardize_image(
 
     # Open and process the image
     with Image.open(input_path) as img:
+        # Preserve EXIF and other metadata
+        exif_data = img.info.get("exif")
+        icc_profile = img.info.get("icc_profile")
+
         # Convert to RGB if necessary (for JPEG output)
         if output_format.upper() == "JPEG" and img.mode in ("RGBA", "P", "LA"):
             # Create a white background for transparent images
@@ -65,7 +69,7 @@ def standardize_image(
 
         # Calculate new dimensions maintaining aspect ratio
         original_width, original_height = img.size
-        
+
         # Only resize if the image is larger than the max dimensions
         if original_width > max_width or original_height > max_height:
             # Calculate the scaling factor
@@ -84,13 +88,21 @@ def standardize_image(
         if output_dir:
             os.makedirs(output_dir, exist_ok=True)
 
-        # Save the image
+        # Save the image with preserved metadata
         save_kwargs = {}
         if output_format.upper() in ("JPEG", "WEBP"):
             save_kwargs["quality"] = quality
             save_kwargs["optimize"] = True
         if output_format.upper() == "JPEG":
             save_kwargs["progressive"] = True
+
+        # Preserve EXIF data if available
+        if exif_data:
+            save_kwargs["exif"] = exif_data
+
+        # Preserve ICC color profile if available
+        if icc_profile:
+            save_kwargs["icc_profile"] = icc_profile
 
         img.save(output_path, format=output_format.upper(), **save_kwargs)
 
