@@ -74,31 +74,31 @@ def commit_and_push_changes(temp_dir, repo, filepath, branch, repo_url, github_t
         # Copy recipe file and prepare list of files to add
         files_to_add = [os.path.relpath(dest_path, temp_dir)]
 
-        # Handle extra files like images and README.md
+        # Handle extra files like images and index.md
         if extra_files:
             for file in extra_files:
                 local_dest = os.path.join(temp_dir, file)
                 os.makedirs(os.path.dirname(local_dest), exist_ok=True)
 
-                # Special handling for README.md files
-                if os.path.basename(file) == "README.md":
-                    print(f"📗 Special handling for README.md: {file}")
+                # Special handling for index.md files (category index pages)
+                if os.path.basename(file) == "index.md":
+                    print(f"📗 Special handling for index.md: {file}")
                     try:
-                        # Since we're now updating the README.md files directly in the temporary directory
+                        # Since we're now updating the index.md files directly in the temporary directory
                         # during the recipe creation process, we don't need to copy them again here.
                         # We just need to make sure they're added to the list of files to stage.
                         rel_path = os.path.relpath(file)
-                        repo_readme_path = os.path.join(temp_dir, rel_path)
+                        repo_index_path = os.path.join(temp_dir, rel_path)
 
-                        # Verify that the README.md file exists in the temporary directory
-                        if os.path.exists(repo_readme_path):
-                            print(f"✅ README.md already updated in temporary directory: {repo_readme_path}")
-                            # Add the README.md file to the list of files to stage
+                        # Verify that the index.md file exists in the temporary directory
+                        if os.path.exists(repo_index_path):
+                            print(f"✅ index.md already updated in temporary directory: {repo_index_path}")
+                            # Add the index.md file to the list of files to stage
                             files_to_add.append(rel_path)
                         else:
-                            print(f"⚠️ Warning: README.md not found in temporary directory: {repo_readme_path}")
+                            print(f"⚠️ Warning: index.md not found in temporary directory: {repo_index_path}")
                     except Exception as e:
-                        print(f"⚠️ Warning: Could not handle README.md {file}: {e}")
+                        print(f"⚠️ Warning: Could not handle index.md {file}: {e}")
                         import traceback
                         traceback.print_exc()
                 else:

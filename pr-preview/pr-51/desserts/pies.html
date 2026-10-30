@@ -27,6 +27,29 @@
 
 <!-- end custom head snippets -->
 
+    <style>
+      nav.site-nav {
+        margin-top: 1rem;
+        text-align: left;
+      }
+      nav.site-nav a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.95rem;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+        white-space: nowrap;
+      }
+      nav.site-nav a:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+      }
+      nav.site-nav span.separator {
+        color: rgba(255, 255, 255, 0.4);
+        margin: 0 0.2rem;
+      }
+    </style>
   </head>
 
   <body>
@@ -36,8 +59,33 @@
         <header class="inner">
           
 
-          <h1 id="project_title"></h1>
-          <h2 id="project_tagline"></h2>
+          <h1 id="project_title"><a href="/recipes/pr-preview/pr-51/" style="color: white; text-decoration: none;">Family Recipes</a></h1>
+
+          <nav class="site-nav">
+            <a href="/recipes/pr-preview/pr-51/">Home</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/baking/">Baking</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/brews/">Brews</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/cocktails/">Cocktails</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/desserts/">Desserts</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/dinner/">Dinner</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/meal-prep/">Meal Prep</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/quick-meals/">Quick Meals</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/sauces/">Sauces</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/smoothies/">Smoothies</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/thanksgiving/">Thanksgiving</a>
+            <span class="separator">·</span>
+            <a href="/recipes/pr-preview/pr-51/contributing.html">Contribute</a>
+          </nav>
 
           
         </header>
@@ -46,9 +94,9 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1 class="site-title">Family Recipes</h1>
+        <h2 class="site-title">Family Recipes</h2>
 
-<nav class="recipe-nav">
+<nav class="recipe-nav" aria-label="Recipe categories">
   <a href="/recipes/pr-preview/pr-51/">Home</a>
   <a href="/recipes/pr-preview/pr-51/baking/">Baking</a>
   <a href="/recipes/pr-preview/pr-51/brews/">Brews</a>
@@ -215,3 +263,4 @@
     </div>
   </body>
 </html>
+

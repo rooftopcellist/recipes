@@ -3,16 +3,52 @@ import os
 import re
 from utils import get_category_path, extract_file_id, download_image_from_drive, parse_readme_structure
 
+def strip_list_prefix(line):
+    """Remove any existing bullet or number prefix from a line.
+
+    Handles:
+    - Bullets: *, -, •
+    - Numbers: 1., 1), 1:, etc.
+    - Combinations like "* -" or "1. 1."
+    """
+    stripped = line.strip()
+    # Keep stripping prefixes until no more are found
+    changed = True
+    while changed:
+        changed = False
+        # Strip bullet prefixes: *, -, •
+        if stripped and stripped[0] in '*-•':
+            stripped = stripped[1:].lstrip()
+            changed = True
+        # Strip number prefixes: digits followed by . or ) or :
+        match = re.match(r'^(\d+)\s*[.):]\s*', stripped)
+        if match:
+            stripped = stripped[match.end():].lstrip()
+            changed = True
+    return stripped
+
 def format_bulleted_list(raw):
-    lines = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+    """Format raw text as a bulleted list.
+
+    Strips any existing bullets/numbers and adds consistent bullet formatting.
+    Each non-empty line becomes a bullet point.
+    """
+    lines = [strip_list_prefix(line) for line in raw.strip().splitlines()]
+    lines = [line for line in lines if line]  # Remove empty lines
     return "\n".join(f"* {line}" for line in lines)
 
 def format_numbered_list(raw):
-    lines = [line.strip() for line in raw.strip().splitlines() if line.strip()]
+    """Format raw text as a numbered list.
+
+    Strips any existing bullets/numbers and adds consistent numbered formatting.
+    Each non-empty line becomes a numbered step.
+    """
+    lines = [strip_list_prefix(line) for line in raw.strip().splitlines()]
+    lines = [line for line in lines if line]  # Remove empty lines
     return "\n".join(f"{i+1}. {line}" for i, line in enumerate(lines))
 
 def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
-    """Update the README.md file in the given category path with a link to the new recipe.
+    """Update the index.md file in the given category path with a link to the new recipe.
 
     Args:
         category_path: The path to the category directory
@@ -21,27 +57,27 @@ def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
         temp_dir: The path to the temporary directory containing the cloned repository
 
     Returns:
-        str: The path to the updated README.md file
+        str: The path to the updated index.md file
     """
     # Determine the actual path to use (either in the temp_dir or local)
     if temp_dir:
         # Use the path in the temporary directory
         rel_category_path = os.path.relpath(category_path)
         actual_category_path = os.path.join(temp_dir, rel_category_path)
-        print(f"📗 Updating README.md in temporary directory: {actual_category_path}")
+        print(f"📗 Updating index.md in temporary directory: {actual_category_path}")
     else:
         # Use the local path
         actual_category_path = category_path
-        print(f"📗 Updating local README.md: {actual_category_path}")
+        print(f"📗 Updating local index.md: {actual_category_path}")
 
-    readme_path = os.path.join(actual_category_path, "README.md")
+    readme_path = os.path.join(actual_category_path, "index.md")
     recipe_link = f"* [{recipe_name}]({slug}.md)\n"
 
-    # Create the README with navigation, title, and link if it doesn't exist
+    # Create the index with navigation, title, and link if it doesn't exist
     if not os.path.exists(readme_path):
         with open(readme_path, "w") as f:
             f.write("{% include nav.md %}\n\n")
-            f.write(f"# {os.path.basename(category_path).capitalize()}\n\n")
+            f.write(f"## {os.path.basename(category_path).capitalize()}\n\n")
             f.write(recipe_link)
         return
 
@@ -105,7 +141,7 @@ def update_category_readme(category_path, recipe_name, slug, temp_dir=None):
     return readme_path
 
 def create_markdown(recipe, temp_dir=None):
-    """Create a markdown file for the recipe and update the README.md file.
+    """Create a markdown file for the recipe and update the index.md file.
 
     Args:
         recipe: The recipe data
@@ -170,7 +206,7 @@ def create_markdown(recipe, temp_dir=None):
 
                 # Use the relative path for the markdown
                 image_rel_path = os.path.join("images", f"{slug}.{image_ext}")
-                image_ref = f"![{recipe['Recipe Name']}]({image_rel_path})\n"
+                image_ref = f'<img src="{image_rel_path}" alt="{recipe["Recipe Name"]}" height="300" align="left" style="margin-right: 15px; margin-bottom: 10px;">\n'
 
                 # Add the image path to the list of files to commit
                 if temp_dir:
@@ -209,6 +245,10 @@ def create_markdown(recipe, temp_dir=None):
     if notes:
         content += f"**Best Paired With:** {notes}\n\n"
 
+    # Clear the float before ingredients section so it appears below the image
+    if image_ref:
+        content += '<div style="clear: both;"></div>\n\n'
+
     content += f"""## Ingredients
 
 {ingredients}
@@ -226,14 +266,14 @@ _Enjoy!_
     with open(recipe_path, "w") as f:
         f.write(content)
 
-    # ✅ Update the category README.md in the appropriate location
+    # ✅ Update the category index.md in the appropriate location
     readme_path = update_category_readme(category_path, recipe["Recipe Name"], slug, temp_dir)
 
     # Return all files for git staging
     if temp_dir:
         # Use relative paths for git staging
         rel_recipe_path = os.path.relpath(os.path.join(category_path, f"{slug}.md"))
-        rel_readme_path = os.path.relpath(os.path.join(category_path, "README.md"))
+        rel_readme_path = os.path.relpath(os.path.join(category_path, "index.md"))
         return rel_recipe_path, slug, extra_paths_to_add + [rel_readme_path]
     else:
-        return recipe_path, slug, extra_paths_to_add + [os.path.join(category_path, "README.md")]
+        return recipe_path, slug, extra_paths_to_add + [os.path.join(category_path, "index.md")]
