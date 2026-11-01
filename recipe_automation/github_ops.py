@@ -3,6 +3,23 @@ import os
 import requests
 import tempfile
 import shutil
+import base64
+from urllib.parse import urlsplit
+
+
+def _auth_env(repo_url, github_token):
+    """Supply credentials only to Git subprocesses, never remote URLs."""
+    url = urlsplit(repo_url)
+    if url.scheme != "https" or url.hostname != "github.com" or url.username or url.password:
+        raise ValueError("Repository URL must be an unauthenticated GitHub HTTPS URL")
+    credential = base64.b64encode(f"x-access-token:{github_token}".encode()).decode()
+    return {
+        "GIT_CONFIG_COUNT": "1",
+        "GIT_CONFIG_KEY_0": "http.https://github.com/.extraheader",
+        "GIT_CONFIG_VALUE_0": f"Authorization: Basic {credential}",
+        "GIT_TERMINAL_PROMPT": "0",
+    }
+
 
 def clone_repository(repo_url, github_token):
     """Clone the repository to a temporary directory and return the path.
@@ -14,8 +31,7 @@ def clone_repository(repo_url, github_token):
     Returns:
         tuple: (temp_dir, repo) - The path to the temporary directory and the repository object
     """
-    # Embed token into HTTPS URL
-    authed_repo_url = repo_url.replace("https://", f"https://{github_token}@")
+    auth_env = _auth_env(repo_url, github_token)
 
     # Create a temporary directory for the repo
     temp_dir = tempfile.mkdtemp(prefix="recipes_repo_")
@@ -23,7 +39,7 @@ def clone_repository(repo_url, github_token):
     try:
         print(f"🔄 Cloning repository to temporary directory...")
         # Clone with authentication
-        repo = Repo.clone_from(authed_repo_url, temp_dir)
+        repo = Repo.clone_from(repo_url, temp_dir, env=auth_env)
         return temp_dir, repo
     except Exception as e:
         # Clean up the temporary directory if cloning fails
@@ -47,13 +63,12 @@ def commit_and_push_changes(temp_dir, repo, filepath, branch, repo_url, github_t
     Returns:
         bool: True if successful, False otherwise
     """
-    # Embed token into HTTPS URL
-    authed_repo_url = repo_url.replace("https://", f"https://{github_token}@")
+    auth_env = _auth_env(repo_url, github_token)
 
     try:
 
         # Create and checkout new branch
-        new_branch = repo.create_head(branch)
+        new_branch = repo.heads[branch] if branch in repo.heads else repo.create_head(branch)
         new_branch.checkout()
 
         print(f"📝 Verifying recipe files in temporary directory...")
@@ -129,40 +144,21 @@ def commit_and_push_changes(temp_dir, repo, filepath, branch, repo_url, github_t
         print(f"💾 Committing changes...")
         repo.index.commit(f"Add recipe: {os.path.basename(filepath)}")
 
-        # Set remote URL to include token and push
         print(f"🚀 Pushing branch '{branch}'...")
         origin = repo.remote()
-        origin.set_url(authed_repo_url)
-
-        try:
-            # First try a normal push
+        origin.set_url(repo_url)
+        with repo.git.custom_environment(**auth_env):
             push_info = origin.push(refspec=f"{branch}:{branch}")
-
-            # Check if push was successful
-            for info in push_info:
-                if info.flags & info.ERROR:
-                    print(f"⚠️ Push failed, trying force push: {info.summary}")
-                    # If normal push fails, try force push
-                    origin.push(refspec=f"{branch}:{branch}", force=True)
-                    print(f"✅ Force push of branch '{branch}' successful.")
-                    break
-            else:
-                print(f"✅ Successfully pushed branch '{branch}'.")
-
-        except GitCommandError as e:
-            if "rejected" in str(e) or "failed to push" in str(e):
-                print(f"⚠️ Push rejected, trying force push...")
-                # If push fails due to rejection, try force push
-                origin.push(refspec=f"{branch}:{branch}", force=True)
-                print(f"✅ Force push of branch '{branch}' successful.")
-            else:
-                # Re-raise if it's a different error
-                raise
+            push_info.raise_if_error()
+        print(f"✅ Successfully pushed branch '{branch}'.")
+        return True
 
     except GitCommandError as e:
         print(f"❌ Git command failed: {e}")
+        return False
     except Exception as e:
         print(f"❌ Unexpected error: {e}")
+        return False
     finally:
         # Clean up the temporary directory if requested
         if cleanup:
@@ -171,8 +167,6 @@ def commit_and_push_changes(temp_dir, repo, filepath, branch, repo_url, github_t
                 shutil.rmtree(temp_dir)
             except Exception as e:
                 print(f"⚠️ Warning: Could not clean up temporary directory: {e}")
-
-        return True
 
 def create_pull_request(branch, github_token):
     headers = {
@@ -183,7 +177,7 @@ def create_pull_request(branch, github_token):
     # First check if a PR already exists for this branch
     print(f"🔍 Checking if PR already exists for branch '{branch}'...")
     check_url = f"https://api.github.com/repos/rooftopcellist/recipes/pulls?head=rooftopcellist:{branch}&state=open"
-    check_response = requests.get(check_url, headers=headers)
+    check_response = requests.get(check_url, headers=headers, timeout=30)
 
     if check_response.status_code == 200 and check_response.json():
         # PR already exists
@@ -202,7 +196,8 @@ def create_pull_request(branch, github_token):
     response = requests.post(
         "https://api.github.com/repos/rooftopcellist/recipes/pulls",
         json=data,
-        headers=headers
+        headers=headers,
+        timeout=30
     )
 
     if response.status_code == 201:
@@ -213,7 +208,7 @@ def create_pull_request(branch, github_token):
         # PR exists but we couldn't find it in our first check
         print(f"✅ PR already exists for branch '{branch}'")
         # Try to get the PR URL
-        check_response = requests.get(check_url, headers=headers)
+        check_response = requests.get(check_url, headers=headers, timeout=30)
         if check_response.status_code == 200 and check_response.json():
             pr_url = check_response.json()[0]["html_url"]
             print(f"✅ Found existing PR: {pr_url}")

@@ -52,7 +52,8 @@ def main():
 
                 # Commit and push the changes
                 print(f"🔄 Committing and pushing changes for {slug}...")
-                commit_and_push_changes(temp_dir, repo, recipe_path, branch, repo_url, github_token, extra_files)
+                if not commit_and_push_changes(temp_dir, repo, recipe_path, branch, repo_url, github_token, extra_files):
+                    raise RuntimeError("Recipe push failed; stopping to preserve the retry timestamp")
 
                 print(f"📝 Creating pull request for {slug}...")
                 pr_url = create_pull_request(branch, github_token)
@@ -60,12 +61,13 @@ def main():
                 if pr_url:
                     print(f"🎉 Recipe {slug} successfully processed and PR created/updated.")
                 else:
-                    print(f"⚠️ Recipe {slug} processed but PR creation may have issues.")
+                    raise RuntimeError("PR creation failed; stopping to preserve the retry timestamp")
 
             except Exception as e:
                 print(f"❌ Error processing recipe {recipe_name}: {e}")
                 import traceback
                 traceback.print_exc()
+                return
 
     except Exception as e:
         print(f"❌ Error processing recipes: {e}")
