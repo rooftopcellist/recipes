@@ -2,9 +2,7 @@
 
 # Hot Honey Chicken
 
-**Author:** Jessica Furniss, Simply Recipes
 
-**Source:** [My 5-Ingredient Hot Honey Chicken Is a Dinner Lifesaver](https://www.simplyrecipes.com/slow-cooker-hot-honey-chicken-recipe-11918794) · [Apple News](https://apple.news/AgBHKIK1QTwq1s5ORHPTysg)
 
 **Serves:** 3–4
 
