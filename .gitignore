@@ -1,3 +1,13 @@
 recipe_automation/venv
 recipe_automation/credentials.json
 
+
+_site/
+.jekyll-cache/
+.bundle/
+vendor/
+.DS_Store
+__pycache__/
+*.py[cod]
+credentials.json
+.env
